@@ -323,12 +323,12 @@ namespace Maya2Babylon
                 int maxNumInfluences = GetMaxInfluence(mFnSkinCluster, mFnTransform, mFnMesh);
 
                 RaiseMessage($"Max influences : {maxNumInfluences}", 2);
-                if (maxNumInfluences > 8)
+                if (maxNumInfluences > 16)
                 {
-                    RaiseWarning($"Too many bones influences per vertex: {maxNumInfluences}. Babylon.js only support up to 8 bones influences per vertex.", 2);
+                    RaiseWarning($"Too many bones influences per vertex: {maxNumInfluences}. Babylon.js only support up to 16 bones influences per vertex.", 2);
                     RaiseWarning("The result may not be as expected.", 2);
                 }
-                maxNbBones = Math.Min(maxNumInfluences, 8);
+                maxNbBones = Math.Min(maxNumInfluences, 16);
 
                 if (indexByNodeName != null && allMayaInfluenceNames != null)
                 {

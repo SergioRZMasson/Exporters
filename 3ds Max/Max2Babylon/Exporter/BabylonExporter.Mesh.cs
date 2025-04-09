@@ -497,10 +497,23 @@ namespace Max2Babylon
                     babylonMesh.matricesIndices = vertices.Select(v => v.BonesIndices).ToArray();
 
                     babylonMesh.numBoneInfluencers = maxNbBones;
+                    
                     if (maxNbBones > 4)
                     {
-                        babylonMesh.matricesWeightsExtra = vertices.SelectMany(v => v.WeightsExtra != null ? v.WeightsExtra.ToArray() : new[] { 0.0f, 0.0f, 0.0f, 0.0f }).ToArray();
-                        babylonMesh.matricesIndicesExtra = vertices.Select(v => v.BonesIndicesExtra).ToArray();
+                        babylonMesh.matricesWeightsExtra1 = vertices.SelectMany(v => v.WeightsExtra1 != null ? v.WeightsExtra1.ToArray() : new[] { 0.0f, 0.0f, 0.0f, 0.0f }).ToArray();
+                        babylonMesh.matricesIndicesExtra1 = vertices.Select(v => v.BonesIndicesExtra1).ToArray();
+                    }
+
+                    if (maxNbBones > 8)
+                    {
+                        babylonMesh.matricesWeightsExtra2 = vertices.SelectMany(v => v.WeightsExtra2 != null ? v.WeightsExtra2.ToArray() : new[] { 0.0f, 0.0f, 0.0f, 0.0f }).ToArray();
+                        babylonMesh.matricesIndicesExtra2 = vertices.Select(v => v.BonesIndicesExtra2).ToArray();
+                    }
+
+                    if (maxNbBones > 12)
+                    {
+                        babylonMesh.matricesWeightsExtra3 = vertices.SelectMany(v => v.WeightsExtra3 != null ? v.WeightsExtra3.ToArray() : new[] { 0.0f, 0.0f, 0.0f, 0.0f }).ToArray();
+                        babylonMesh.matricesIndicesExtra3 = vertices.Select(v => v.BonesIndicesExtra3).ToArray();
                     }
                 }
 
@@ -1386,8 +1399,8 @@ namespace Max2Babylon
                     // if we have any extra bone weights
                     if (currentVtxBone > 4)
                     {
-                        vertex.WeightsExtra = Loader.Global.Point4.Create(weight);
-                        vertex.BonesIndicesExtra = (bone[3] << 24) | (bone[2] << 16) | (bone[1] << 8) | bone[0];
+                        vertex.WeightsExtra1 = Loader.Global.Point4.Create(weight);
+                        vertex.BonesIndicesExtra1 = (bone[3] << 24) | (bone[2] << 16) | (bone[1] << 8) | bone[0];
 
                         if (currentSkinBone < nbBones)
                         {

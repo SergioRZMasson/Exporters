@@ -21,8 +21,12 @@ namespace Max2Babylon
         public IPoint2 UV8 { get; set; }
         public int BonesIndices { get; set; }
         public IPoint4 Weights { get; set; }
-        public int BonesIndicesExtra { get; set; }
-        public IPoint4 WeightsExtra { get; set; }
+        public int BonesIndicesExtra1 { get; set; }
+        public int BonesIndicesExtra2 { get; set; }
+        public int BonesIndicesExtra3 { get; set; }
+        public IPoint4 WeightsExtra1 { get; set; }
+        public IPoint4 WeightsExtra2 { get; set; }
+        public IPoint4 WeightsExtra3 { get; set; }
         public float[] Color { get; set; }
 
         public GlobalVertex(GlobalVertex other)
@@ -42,8 +46,12 @@ namespace Max2Babylon
             this.UV8 = other.UV8 != null ? other.UV8.Clone() : null;
             this.BonesIndices = other.BonesIndices;
             this.Weights = other.Weights != null ? other.Weights.Clone() : null;
-            this.BonesIndicesExtra = other.BonesIndicesExtra;
-            this.WeightsExtra = other.WeightsExtra != null ? other.WeightsExtra.Clone() : null;
+            this.BonesIndicesExtra1 = other.BonesIndicesExtra1;
+            this.BonesIndicesExtra2 = other.BonesIndicesExtra2;
+            this.BonesIndicesExtra3 = other.BonesIndicesExtra3;
+            this.WeightsExtra1 = other.WeightsExtra1 != null ? other.WeightsExtra1.Clone() : null;
+            this.WeightsExtra2 = other.WeightsExtra2 != null ? other.WeightsExtra2.Clone() : null;
+            this.WeightsExtra3 = other.WeightsExtra3 != null ? other.WeightsExtra3.Clone() : null;
             this.Color = other.Color != null ? other.Color.Clone2() : null;
         }
 
@@ -135,7 +143,17 @@ namespace Max2Babylon
                 return false;
             }
 
-            if (WeightsExtra != null && !other.WeightsExtra.IsAlmostEqualTo(WeightsExtra, Tools.Epsilon))
+            if (WeightsExtra1 != null && !other.WeightsExtra1.IsAlmostEqualTo(WeightsExtra1, Tools.Epsilon))
+            {
+                return false;
+            }
+
+            if (WeightsExtra2 != null && !other.WeightsExtra2.IsAlmostEqualTo(WeightsExtra2, Tools.Epsilon))
+            {
+                return false;
+            }
+
+            if (WeightsExtra3 != null && !other.WeightsExtra3.IsAlmostEqualTo(WeightsExtra3, Tools.Epsilon))
             {
                 return false;
             }
