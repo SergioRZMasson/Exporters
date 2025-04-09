@@ -20,9 +20,13 @@ namespace BabylonExport.Entities
         float[] uvs8 { get; set; }
         float[] colors { get; set; }
         int[] matricesIndices { get; set; }
-        int[] matricesIndicesExtra { get; set; }
+        int[] matricesIndicesExtra1 { get; set; }
+        int[] matricesIndicesExtra2 { get; set; }
+        int[] matricesIndicesExtra3 { get; set; }
         float[] matricesWeights { get; set; }
-        float[] matricesWeightsExtra { get; set; }
+        float[] matricesWeightsExtra1 { get; set; }
+        float[] matricesWeightsExtra2 { get; set; }
+        float[] matricesWeightsExtra3 { get; set; }
         int[] indices { get; set; }
     }
 
@@ -90,10 +94,22 @@ namespace BabylonExport.Entities
         public float[] matricesWeights { get; set; }
 
         [DataMember]
-        public int[] matricesIndicesExtra { get; set; }
+        public int[] matricesIndicesExtra1 { get; set; }
 
         [DataMember]
-        public float[] matricesWeightsExtra { get; set; }
+        public int[] matricesIndicesExtra2 { get; set; }
+
+        [DataMember]
+        public int[] matricesIndicesExtra3 { get; set; }
+
+        [DataMember]
+        public float[] matricesWeightsExtra1 { get; set; }
+
+        [DataMember]
+        public float[] matricesWeightsExtra2 { get; set; }
+
+        [DataMember]
+        public float[] matricesWeightsExtra3 { get; set; }
 
         [DataMember]
         public int[] indices { get; set; }

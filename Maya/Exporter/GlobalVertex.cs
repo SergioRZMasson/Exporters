@@ -19,8 +19,12 @@ namespace MayaBabylon
         public float[] UV8 { get; set; } // Vec2
         public int BonesIndices { get; set; }
         public float[] Weights { get; set; } // Vec4
-        public int BonesIndicesExtra { get; set; }
-        public float[] WeightsExtra { get; set; } // Vec4
+        public int BonesIndicesExtra1 { get; set; }
+        public int BonesIndicesExtra2 { get; set; }
+        public int BonesIndicesExtra3 { get; set; }
+        public float[] WeightsExtra1 { get; set; } // Vec4
+        public float[] WeightsExtra2 { get; set; } // Vec4
+        public float[] WeightsExtra3 { get; set; } // Vec4
         public float[] Color { get; set; } // Vec4
 
         public GlobalVertex(GlobalVertex other)
@@ -40,8 +44,12 @@ namespace MayaBabylon
             this.UV8 = other.UV8;
             this.BonesIndices = other.BonesIndices;
             this.Weights = other.Weights;
-            this.BonesIndicesExtra = other.BonesIndicesExtra;
-            this.WeightsExtra = other.WeightsExtra;
+            this.BonesIndicesExtra1 = other.BonesIndicesExtra1;
+            this.BonesIndicesExtra2 = other.BonesIndicesExtra2;
+            this.BonesIndicesExtra3 = other.BonesIndicesExtra3;
+            this.WeightsExtra1 = other.WeightsExtra1;
+            this.WeightsExtra2 = other.WeightsExtra2;
+            this.WeightsExtra3 = other.WeightsExtra3;
             this.Color = other.Color;
         }
 
@@ -68,7 +76,9 @@ namespace MayaBabylon
                     other.UV7.IsAlmostEqualTo(UV7, Tools.Epsilon) &&
                     other.UV8.IsAlmostEqualTo(UV8, Tools.Epsilon) &&
                     other.Weights.IsAlmostEqualTo(Weights, Tools.Epsilon) &&
-                    other.WeightsExtra.IsAlmostEqualTo(WeightsExtra, Tools.Epsilon) &&
+                    other.WeightsExtra1.IsAlmostEqualTo(WeightsExtra1, Tools.Epsilon) &&
+                    other.WeightsExtra2.IsAlmostEqualTo(WeightsExtra2, Tools.Epsilon) &&
+                    other.WeightsExtra3.IsAlmostEqualTo(WeightsExtra3, Tools.Epsilon) &&
                     other.Color.IsAlmostEqualTo(Color, Tools.Epsilon) && 
                     other.BonesIndices == BonesIndices;
             }

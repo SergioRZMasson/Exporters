@@ -50,7 +50,10 @@ namespace Babylon2GLTF
             bool hasTangents = meshData.tangents != null && meshData.tangents.Length > 0;
             bool hasNormals = meshData.normals != null && meshData.normals.Length > 0;
 
-            bool hasBonesExtra = babylonMesh.matricesIndicesExtra != null && babylonMesh.matricesIndicesExtra.Length > 0;
+            bool hasBonesExtra1 = babylonMesh.matricesIndicesExtra1 != null && babylonMesh.matricesIndicesExtra1.Length > 0;
+            bool hasBonesExtra2 = babylonMesh.matricesIndicesExtra2 != null && babylonMesh.matricesIndicesExtra2.Length > 0;
+            bool hasBonesExtra3 = babylonMesh.matricesIndicesExtra3 != null && babylonMesh.matricesIndicesExtra3.Length > 0;
+
             bool hasMetadata = babylonMesh.metadata != null && babylonMesh.metadata.Count > 0;
 
             logger.RaiseMessage("GLTFExporter.Mesh | nbVertices=" + nbVertices, 3);
@@ -66,7 +69,9 @@ namespace Babylon2GLTF
 
             logger.RaiseMessage("GLTFExporter.Mesh | hasColor=" + hasColor, 3);
             logger.RaiseMessage("GLTFExporter.Mesh | hasBones=" + hasBones, 3);
-            logger.RaiseMessage("GLTFExporter.Mesh | hasBonesExtra=" + hasBonesExtra, 3);
+            logger.RaiseMessage("GLTFExporter.Mesh | hasBonesExtra1=" + hasBonesExtra1, 3);
+            logger.RaiseMessage("GLTFExporter.Mesh | hasBonesExtra2=" + hasBonesExtra1, 3);
+            logger.RaiseMessage("GLTFExporter.Mesh | hasBonesExtra3=" + hasBonesExtra1, 3);
             logger.RaiseMessage("GLTFExporter.Mesh | hasMetadata=" + hasMetadata, 3);
             logger.RaiseMessage("GLTFExporter.Mesh | hasNormals=" + hasNormals, 3);
 
@@ -188,13 +193,31 @@ namespace Babylon2GLTF
 
                     clearBoneUnusedIndices(globalVertex.BonesIndices, globalVertex.BonesWeights);
 
-                    if (hasBonesExtra)
+                    if (hasBonesExtra1)
                     {
-                        uint bonesIndicesExtraMerged = (uint)meshData.matricesIndicesExtra[indexVertex];
-                        globalVertex.BonesIndicesExtra = unpackBabylonBonesToArray(bonesIndicesExtraMerged);
-                        globalVertex.BonesWeightsExtra = ArrayExtension.SubArrayFromEntity(meshData.matricesWeightsExtra, indexVertex, 4);
+                        uint bonesIndicesExtraMerged = (uint)meshData.matricesIndicesExtra1[indexVertex];
+                        globalVertex.BonesIndicesExtra1 = unpackBabylonBonesToArray(bonesIndicesExtraMerged);
+                        globalVertex.BonesWeightsExtra1 = ArrayExtension.SubArrayFromEntity(meshData.matricesWeightsExtra1, indexVertex, 4);
                         
-                        clearBoneUnusedIndices(globalVertex.BonesIndicesExtra, globalVertex.BonesWeightsExtra);
+                        clearBoneUnusedIndices(globalVertex.BonesIndicesExtra1, globalVertex.BonesWeightsExtra1);
+                    }
+
+                    if (hasBonesExtra2)
+                    {
+                        uint bonesIndicesExtraMerged = (uint)meshData.matricesIndicesExtra2[indexVertex];
+                        globalVertex.BonesIndicesExtra2 = unpackBabylonBonesToArray(bonesIndicesExtraMerged);
+                        globalVertex.BonesWeightsExtra2 = ArrayExtension.SubArrayFromEntity(meshData.matricesWeightsExtra2, indexVertex, 4);
+
+                        clearBoneUnusedIndices(globalVertex.BonesIndicesExtra2, globalVertex.BonesWeightsExtra2);
+                    }
+
+                    if (hasBonesExtra3)
+                    {
+                        uint bonesIndicesExtraMerged = (uint)meshData.matricesIndicesExtra3[indexVertex];
+                        globalVertex.BonesIndicesExtra3 = unpackBabylonBonesToArray(bonesIndicesExtraMerged);
+                        globalVertex.BonesWeightsExtra3 = ArrayExtension.SubArrayFromEntity(meshData.matricesWeightsExtra3, indexVertex, 4);
+
+                        clearBoneUnusedIndices(globalVertex.BonesIndicesExtra3, globalVertex.BonesWeightsExtra3);
                     }
                 }
 
@@ -552,11 +575,25 @@ namespace Babylon2GLTF
 
                             meshPrimitive.attributes.Add(GLTFMeshPrimitive.Attribute.JOINTS_0.ToString(), tmpGltfMeshPrimitive.attributes[GLTFMeshPrimitive.Attribute.JOINTS_0.ToString()]);
                             meshPrimitive.attributes.Add(GLTFMeshPrimitive.Attribute.WEIGHTS_0.ToString(), tmpGltfMeshPrimitive.attributes[GLTFMeshPrimitive.Attribute.WEIGHTS_0.ToString()]);
-                            if (hasBonesExtra)
+                            
+                            if (hasBonesExtra1)
                             {
                                 meshPrimitive.attributes.Add(GLTFMeshPrimitive.Attribute.JOINTS_1.ToString(), tmpGltfMeshPrimitive.attributes[GLTFMeshPrimitive.Attribute.JOINTS_1.ToString()]);
                                 meshPrimitive.attributes.Add(GLTFMeshPrimitive.Attribute.WEIGHTS_1.ToString(), tmpGltfMeshPrimitive.attributes[GLTFMeshPrimitive.Attribute.WEIGHTS_1.ToString()]);
                             }
+
+                            if (hasBonesExtra2)
+                            {
+                                meshPrimitive.attributes.Add(GLTFMeshPrimitive.Attribute.JOINTS_2.ToString(), tmpGltfMeshPrimitive.attributes[GLTFMeshPrimitive.Attribute.JOINTS_1.ToString()]);
+                                meshPrimitive.attributes.Add(GLTFMeshPrimitive.Attribute.WEIGHTS_2.ToString(), tmpGltfMeshPrimitive.attributes[GLTFMeshPrimitive.Attribute.WEIGHTS_1.ToString()]);
+                            }
+
+                            if (hasBonesExtra3)
+                            {
+                                meshPrimitive.attributes.Add(GLTFMeshPrimitive.Attribute.JOINTS_3.ToString(), tmpGltfMeshPrimitive.attributes[GLTFMeshPrimitive.Attribute.JOINTS_1.ToString()]);
+                                meshPrimitive.attributes.Add(GLTFMeshPrimitive.Attribute.WEIGHTS_3.ToString(), tmpGltfMeshPrimitive.attributes[GLTFMeshPrimitive.Attribute.WEIGHTS_1.ToString()]);
+                            }
+
                             sharedSkinnedMeshesByOriginal[tmpGltfMesh].Add(gltfMesh);
                         }
                         else
@@ -577,7 +614,7 @@ namespace Babylon2GLTF
                             joints.ForEach(n => accessorJoints.bytesList.AddRange(BitConverter.GetBytes(n)));
                             accessorJoints.count = globalVerticesSubMesh.Count;
 
-                            if (hasBonesExtra)
+                            if (hasBonesExtra2)
                             {
                                 // --- Joints Extra ---
                                 var accessorJointsExtra = GLTFBufferService.Instance.CreateAccessor(
@@ -589,7 +626,41 @@ namespace Babylon2GLTF
                                 );
                                 meshPrimitive.attributes.Add(GLTFMeshPrimitive.Attribute.JOINTS_1.ToString(), accessorJointsExtra.index);
                                 // Populate accessor
-                                List<ushort> jointsExtra = globalVerticesSubMesh.SelectMany(v => new[] { v.BonesIndicesExtra[0], v.BonesIndicesExtra[1], v.BonesIndicesExtra[2], v.BonesIndicesExtra[3] }).ToList();
+                                List<ushort> jointsExtra = globalVerticesSubMesh.SelectMany(v => new[] { v.BonesIndicesExtra1[0], v.BonesIndicesExtra1[1], v.BonesIndicesExtra1[2], v.BonesIndicesExtra1[3] }).ToList();
+                                jointsExtra.ForEach(n => accessorJointsExtra.bytesList.AddRange(BitConverter.GetBytes(n)));
+                                accessorJointsExtra.count = globalVerticesSubMesh.Count;
+                            }
+
+                            if (hasBonesExtra2)
+                            {
+                                // --- Joints Extra ---
+                                var accessorJointsExtra = GLTFBufferService.Instance.CreateAccessor(
+                                    gltf,
+                                    GLTFBufferService.Instance.GetBufferViewUnsignedShortVec4(gltf, buffer),
+                                    "accessorJointsExtra",
+                                    GLTFAccessor.ComponentType.UNSIGNED_SHORT,
+                                    GLTFAccessor.TypeEnum.VEC4
+                                );
+                                meshPrimitive.attributes.Add(GLTFMeshPrimitive.Attribute.JOINTS_1.ToString(), accessorJointsExtra.index);
+                                // Populate accessor
+                                List<ushort> jointsExtra = globalVerticesSubMesh.SelectMany(v => new[] { v.BonesIndicesExtra2[0], v.BonesIndicesExtra2[1], v.BonesIndicesExtra2[2], v.BonesIndicesExtra2[3] }).ToList();
+                                jointsExtra.ForEach(n => accessorJointsExtra.bytesList.AddRange(BitConverter.GetBytes(n)));
+                                accessorJointsExtra.count = globalVerticesSubMesh.Count;
+                            }
+
+                            if (hasBonesExtra3)
+                            {
+                                // --- Joints Extra ---
+                                var accessorJointsExtra = GLTFBufferService.Instance.CreateAccessor(
+                                    gltf,
+                                    GLTFBufferService.Instance.GetBufferViewUnsignedShortVec4(gltf, buffer),
+                                    "accessorJointsExtra",
+                                    GLTFAccessor.ComponentType.UNSIGNED_SHORT,
+                                    GLTFAccessor.TypeEnum.VEC4
+                                );
+                                meshPrimitive.attributes.Add(GLTFMeshPrimitive.Attribute.JOINTS_1.ToString(), accessorJointsExtra.index);
+                                // Populate accessor
+                                List<ushort> jointsExtra = globalVerticesSubMesh.SelectMany(v => new[] { v.BonesIndicesExtra3[0], v.BonesIndicesExtra3[1], v.BonesIndicesExtra3[2], v.BonesIndicesExtra3[3] }).ToList();
                                 jointsExtra.ForEach(n => accessorJointsExtra.bytesList.AddRange(BitConverter.GetBytes(n)));
                                 accessorJointsExtra.count = globalVerticesSubMesh.Count;
                             }
@@ -608,21 +679,55 @@ namespace Babylon2GLTF
                             weightBones.ForEach(n => accessorWeights.bytesList.AddRange(BitConverter.GetBytes(n)));
                             accessorWeights.count = globalVerticesSubMesh.Count;
 
-                            if (hasBonesExtra)
+                            if (hasBonesExtra1)
                             {
                                 // --- Weights Extra ---
-                                var accessorWeightsExtra = GLTFBufferService.Instance.CreateAccessor(
+                                var accessorWeightsExtra1 = GLTFBufferService.Instance.CreateAccessor(
                                     gltf,
                                     GLTFBufferService.Instance.GetBufferViewFloatVec4(gltf, buffer),
                                     "accessorWeightsExtra",
                                     GLTFAccessor.ComponentType.FLOAT,
                                     GLTFAccessor.TypeEnum.VEC4
                                 );
-                                meshPrimitive.attributes.Add(GLTFMeshPrimitive.Attribute.WEIGHTS_1.ToString(), accessorWeightsExtra.index);
+                                meshPrimitive.attributes.Add(GLTFMeshPrimitive.Attribute.WEIGHTS_1.ToString(), accessorWeightsExtra1.index);
                                 // Populate accessor
-                                List<float> weightBonesExtra = globalVerticesSubMesh.SelectMany(v => new[] { v.BonesWeightsExtra[0], v.BonesWeightsExtra[1], v.BonesWeightsExtra[2], v.BonesWeightsExtra[3] }).ToList();
-                                weightBonesExtra.ForEach(n => accessorWeightsExtra.bytesList.AddRange(BitConverter.GetBytes(n)));
-                                accessorWeightsExtra.count = globalVerticesSubMesh.Count;
+                                List<float> weightBonesExtra1 = globalVerticesSubMesh.SelectMany(v => new[] { v.BonesWeightsExtra1[0], v.BonesWeightsExtra1[1], v.BonesWeightsExtra1[2], v.BonesWeightsExtra1[3] }).ToList();
+                                weightBonesExtra1.ForEach(n => accessorWeightsExtra1.bytesList.AddRange(BitConverter.GetBytes(n)));
+                                accessorWeightsExtra1.count = globalVerticesSubMesh.Count;
+                            }
+
+                            if (hasBonesExtra2)
+                            {
+                                // --- Weights Extra ---
+                                var accessorWeightsExtra2 = GLTFBufferService.Instance.CreateAccessor(
+                                    gltf,
+                                    GLTFBufferService.Instance.GetBufferViewFloatVec4(gltf, buffer),
+                                    "accessorWeightsExtra",
+                                    GLTFAccessor.ComponentType.FLOAT,
+                                    GLTFAccessor.TypeEnum.VEC4
+                                );
+                                meshPrimitive.attributes.Add(GLTFMeshPrimitive.Attribute.WEIGHTS_2.ToString(), accessorWeightsExtra2.index);
+                                // Populate accessor
+                                List<float> weightBonesExtra2 = globalVerticesSubMesh.SelectMany(v => new[] { v.BonesWeightsExtra2[0], v.BonesWeightsExtra2[1], v.BonesWeightsExtra2[2], v.BonesWeightsExtra2[3] }).ToList();
+                                weightBonesExtra2.ForEach(n => accessorWeightsExtra2.bytesList.AddRange(BitConverter.GetBytes(n)));
+                                accessorWeightsExtra2.count = globalVerticesSubMesh.Count;
+                            }
+
+                            if (hasBonesExtra3)
+                            {
+                                // --- Weights Extra ---
+                                var accessorWeightsExtra3 = GLTFBufferService.Instance.CreateAccessor(
+                                    gltf,
+                                    GLTFBufferService.Instance.GetBufferViewFloatVec4(gltf, buffer),
+                                    "accessorWeightsExtra",
+                                    GLTFAccessor.ComponentType.FLOAT,
+                                    GLTFAccessor.TypeEnum.VEC4
+                                );
+                                meshPrimitive.attributes.Add(GLTFMeshPrimitive.Attribute.WEIGHTS_3.ToString(), accessorWeightsExtra3.index);
+                                // Populate accessor
+                                List<float> weightBonesExtra3 = globalVerticesSubMesh.SelectMany(v => new[] { v.BonesWeightsExtra3[0], v.BonesWeightsExtra3[1], v.BonesWeightsExtra3[2], v.BonesWeightsExtra3[3] }).ToList();
+                                weightBonesExtra3.ForEach(n => accessorWeightsExtra3.bytesList.AddRange(BitConverter.GetBytes(n)));
+                                accessorWeightsExtra3.count = globalVerticesSubMesh.Count;
                             }
                         }
                     }

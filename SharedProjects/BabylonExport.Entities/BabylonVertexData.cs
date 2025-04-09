@@ -56,13 +56,25 @@ namespace BabylonExport.Entities
         public int[] matricesIndices { get; set; }
 
         [DataMember]
-        public int[] matricesIndicesExtra { get; set; }
+        public int[] matricesIndicesExtra1 { get; set; }
+
+        [DataMember]
+        public int[] matricesIndicesExtra2 { get; set; }
+
+        [DataMember]
+        public int[] matricesIndicesExtra3 { get; set; }
 
         [DataMember]
         public float[] matricesWeights { get; set; }
 
         [DataMember]
-        public float[] matricesWeightsExtra { get; set; }
+        public float[] matricesWeightsExtra1 { get; set; }
+
+        [DataMember]
+        public float[] matricesWeightsExtra2 { get; set; }
+
+        [DataMember]
+        public float[] matricesWeightsExtra3 { get; set; }
 
         [DataMember]
         public int[] indices { get; set; }
@@ -90,9 +102,13 @@ namespace BabylonExport.Entities
             uvs8 = data.uvs8;
             colors = data.colors;
             matricesIndices = data.matricesIndices;
-            matricesIndicesExtra = data.matricesIndicesExtra;
+            matricesIndicesExtra1 = data.matricesIndicesExtra1;
+            matricesIndicesExtra2 = data.matricesIndicesExtra2;
+            matricesIndicesExtra3 = data.matricesIndicesExtra3;
             matricesWeights = data.matricesWeights;
-            matricesWeightsExtra = data.matricesWeightsExtra;
+            matricesWeightsExtra1 = data.matricesWeightsExtra1;
+            matricesWeightsExtra2 = data.matricesWeightsExtra2;
+            matricesWeightsExtra3 = data.matricesWeightsExtra3;
             indices = data.indices;
         }
     }

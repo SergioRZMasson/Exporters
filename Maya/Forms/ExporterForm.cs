@@ -211,7 +211,7 @@ namespace Maya2Babylon.Forms
                 {
                     scaleFactorParsed = float.Parse(txtScaleFactor.Text);
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     throw new InvalidDataException(String.Format("Invalid Scale Factor value: {0}", txtScaleFactor.Text));
                 }
@@ -219,7 +219,7 @@ namespace Maya2Babylon.Forms
                 {
                     textureQualityParsed = long.Parse(txtQuality.Text);
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     throw new InvalidDataException(String.Format("Invalid Texture Quality value: {0}", txtScaleFactor.Text));
                 }

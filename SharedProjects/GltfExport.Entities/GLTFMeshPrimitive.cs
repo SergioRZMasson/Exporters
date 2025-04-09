@@ -33,8 +33,12 @@ namespace GLTFExport.Entities
             COLOR_0,
             JOINTS_0,
             JOINTS_1,
+            JOINTS_2,
+            JOINTS_3,
             WEIGHTS_0,
-            WEIGHTS_1
+            WEIGHTS_1,
+            WEIGHTS_2,
+            WEIGHTS_3
         }
 
         [DataMember(IsRequired = true)]

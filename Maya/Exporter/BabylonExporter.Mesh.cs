@@ -565,8 +565,20 @@ namespace Maya2Babylon
                 babylonMesh.numBoneInfluencers = maxNbBones;
                 if (maxNbBones > 4)
                 {
-                    babylonMesh.matricesWeightsExtra = vertices.SelectMany(v => v.WeightsExtra != null ? v.WeightsExtra.ToArray() : new[] { 0.0f, 0.0f, 0.0f, 0.0f }).ToArray();
-                    babylonMesh.matricesIndicesExtra = vertices.Select(v => v.BonesIndicesExtra).ToArray();
+                    babylonMesh.matricesWeightsExtra1 = vertices.SelectMany(v => v.WeightsExtra1 != null ? v.WeightsExtra1.ToArray() : new[] { 0.0f, 0.0f, 0.0f, 0.0f }).ToArray();
+                    babylonMesh.matricesIndicesExtra1 = vertices.Select(v => v.BonesIndicesExtra1).ToArray();
+                }
+
+                if (maxNbBones > 8)
+                {
+                    babylonMesh.matricesWeightsExtra2 = vertices.SelectMany(v => v.WeightsExtra2 != null ? v.WeightsExtra2.ToArray() : new[] { 0.0f, 0.0f, 0.0f, 0.0f }).ToArray();
+                    babylonMesh.matricesIndicesExtra2 = vertices.Select(v => v.BonesIndicesExtra2).ToArray();
+                }
+
+                if (maxNbBones > 12)
+                {
+                    babylonMesh.matricesWeightsExtra3 = vertices.SelectMany(v => v.WeightsExtra3 != null ? v.WeightsExtra3.ToArray() : new[] { 0.0f, 0.0f, 0.0f, 0.0f }).ToArray();
+                    babylonMesh.matricesIndicesExtra3 = vertices.Select(v => v.BonesIndicesExtra3).ToArray();
                 }
             }
 
@@ -1090,8 +1102,70 @@ namespace Maya2Babylon
                     }
 
                     float[] weightsExtra = { weight0, weight1, weight2, weight3 };
-                    vertex.WeightsExtra = weightsExtra;
-                    vertex.BonesIndicesExtra = (bone3 << 24) | (bone2 << 16) | (bone1 << 8) | bone0;
+                    vertex.WeightsExtra1 = weightsExtra;
+                    vertex.BonesIndicesExtra1 = (bone3 << 24) | (bone2 << 16) | (bone1 << 8) | bone0;
+                }
+
+                if (nbBones > 8)
+                {
+                    bone0 = weightByInfluenceIndex.ElementAt(8).Key;
+                    weight0 = (float)weightByInfluenceIndex.ElementAt(8).Value;
+                    weight1 = 0;
+                    weight2 = 0;
+                    weight3 = 0;
+
+                    if (nbBones > 5)
+                    {
+                        bone1 = weightByInfluenceIndex.ElementAt(9).Key;
+                        weight1 = (float)weightByInfluenceIndex.ElementAt(9).Value;
+
+                        if (nbBones > 6)
+                        {
+                            bone2 = weightByInfluenceIndex.ElementAt(10).Key;
+                            weight2 = (float)weightByInfluenceIndex.ElementAt(10).Value;
+
+                            if (nbBones > 7)
+                            {
+                                bone3 = weightByInfluenceIndex.ElementAt(11).Key;
+                                weight3 = (float)weightByInfluenceIndex.ElementAt(11).Value;
+                            }
+                        }
+                    }
+
+                    float[] weightsExtra = { weight0, weight1, weight2, weight3 };
+                    vertex.WeightsExtra2 = weightsExtra;
+                    vertex.BonesIndicesExtra2 = (bone3 << 24) | (bone2 << 16) | (bone1 << 8) | bone0;
+                }
+
+                if (nbBones > 12)
+                {
+                    bone0 = weightByInfluenceIndex.ElementAt(12).Key;
+                    weight0 = (float)weightByInfluenceIndex.ElementAt(12).Value;
+                    weight1 = 0;
+                    weight2 = 0;
+                    weight3 = 0;
+
+                    if (nbBones > 5)
+                    {
+                        bone1 = weightByInfluenceIndex.ElementAt(13).Key;
+                        weight1 = (float)weightByInfluenceIndex.ElementAt(13).Value;
+
+                        if (nbBones > 6)
+                        {
+                            bone2 = weightByInfluenceIndex.ElementAt(14).Key;
+                            weight2 = (float)weightByInfluenceIndex.ElementAt(14).Value;
+
+                            if (nbBones > 7)
+                            {
+                                bone3 = weightByInfluenceIndex.ElementAt(15).Key;
+                                weight3 = (float)weightByInfluenceIndex.ElementAt(15).Value;
+                            }
+                        }
+                    }
+
+                    float[] weightsExtra = { weight0, weight1, weight2, weight3 };
+                    vertex.WeightsExtra3 = weightsExtra;
+                    vertex.BonesIndicesExtra3 = (bone3 << 24) | (bone2 << 16) | (bone1 << 8) | bone0;
                 }
             }
             return vertex;

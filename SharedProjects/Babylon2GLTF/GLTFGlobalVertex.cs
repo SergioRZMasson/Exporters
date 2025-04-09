@@ -17,8 +17,12 @@ namespace GLTFExport.Entities
         public BabylonVector2 UV8 { get; set; }
         public float[] Color { get; set; }
         public ushort[] BonesIndices { get; set; }
-        public ushort[] BonesIndicesExtra { get; set; }
+        public ushort[] BonesIndicesExtra1 { get; set; }
+        public ushort[] BonesIndicesExtra2 { get; set; }
+        public ushort[] BonesIndicesExtra3 { get; set; }
         public float[] BonesWeights { get; set; }
-        public float[] BonesWeightsExtra { get; set; }
+        public float[] BonesWeightsExtra1 { get; set; }
+        public float[] BonesWeightsExtra2 { get; set; }
+        public float[] BonesWeightsExtra3 { get; set; }
     }
 }
