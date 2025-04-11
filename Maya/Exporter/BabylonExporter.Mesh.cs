@@ -1082,6 +1082,9 @@ namespace Maya2Babylon
                     weight1 = 0;
                     weight2 = 0;
                     weight3 = 0;
+                    bone1 = 0;
+                    bone2 = 0;
+                    bone3 = 0;
 
                     if (nbBones > 5)
                     {
@@ -1113,18 +1116,20 @@ namespace Maya2Babylon
                     weight1 = 0;
                     weight2 = 0;
                     weight3 = 0;
-
-                    if (nbBones > 5)
+                    bone1 = 0;
+                    bone2 = 0;
+                    bone3 = 0;
+                    if (nbBones > 9)
                     {
                         bone1 = weightByInfluenceIndex.ElementAt(9).Key;
                         weight1 = (float)weightByInfluenceIndex.ElementAt(9).Value;
 
-                        if (nbBones > 6)
+                        if (nbBones > 10)
                         {
                             bone2 = weightByInfluenceIndex.ElementAt(10).Key;
                             weight2 = (float)weightByInfluenceIndex.ElementAt(10).Value;
 
-                            if (nbBones > 7)
+                            if (nbBones > 11)
                             {
                                 bone3 = weightByInfluenceIndex.ElementAt(11).Key;
                                 weight3 = (float)weightByInfluenceIndex.ElementAt(11).Value;
@@ -1144,18 +1149,21 @@ namespace Maya2Babylon
                     weight1 = 0;
                     weight2 = 0;
                     weight3 = 0;
+                    bone1 = 0;
+                    bone2 = 0;
+                    bone3 = 0;
 
-                    if (nbBones > 5)
+                    if (nbBones > 13)
                     {
                         bone1 = weightByInfluenceIndex.ElementAt(13).Key;
                         weight1 = (float)weightByInfluenceIndex.ElementAt(13).Value;
 
-                        if (nbBones > 6)
+                        if (nbBones > 14)
                         {
                             bone2 = weightByInfluenceIndex.ElementAt(14).Key;
                             weight2 = (float)weightByInfluenceIndex.ElementAt(14).Value;
 
-                            if (nbBones > 7)
+                            if (nbBones > 15)
                             {
                                 bone3 = weightByInfluenceIndex.ElementAt(15).Key;
                                 weight3 = (float)weightByInfluenceIndex.ElementAt(15).Value;

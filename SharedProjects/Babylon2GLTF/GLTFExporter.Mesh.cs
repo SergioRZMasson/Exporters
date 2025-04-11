@@ -637,11 +637,11 @@ namespace Babylon2GLTF
                                 var accessorJointsExtra = GLTFBufferService.Instance.CreateAccessor(
                                     gltf,
                                     GLTFBufferService.Instance.GetBufferViewUnsignedShortVec4(gltf, buffer),
-                                    "accessorJointsExtra",
+                                    "accessorJointsExtra2",
                                     GLTFAccessor.ComponentType.UNSIGNED_SHORT,
                                     GLTFAccessor.TypeEnum.VEC4
                                 );
-                                meshPrimitive.attributes.Add(GLTFMeshPrimitive.Attribute.JOINTS_1.ToString(), accessorJointsExtra.index);
+                                meshPrimitive.attributes.Add(GLTFMeshPrimitive.Attribute.JOINTS_2.ToString(), accessorJointsExtra.index);
                                 // Populate accessor
                                 List<ushort> jointsExtra = globalVerticesSubMesh.SelectMany(v => new[] { v.BonesIndicesExtra2[0], v.BonesIndicesExtra2[1], v.BonesIndicesExtra2[2], v.BonesIndicesExtra2[3] }).ToList();
                                 jointsExtra.ForEach(n => accessorJointsExtra.bytesList.AddRange(BitConverter.GetBytes(n)));
@@ -654,11 +654,11 @@ namespace Babylon2GLTF
                                 var accessorJointsExtra = GLTFBufferService.Instance.CreateAccessor(
                                     gltf,
                                     GLTFBufferService.Instance.GetBufferViewUnsignedShortVec4(gltf, buffer),
-                                    "accessorJointsExtra",
+                                    "accessorJointsExtra3",
                                     GLTFAccessor.ComponentType.UNSIGNED_SHORT,
                                     GLTFAccessor.TypeEnum.VEC4
                                 );
-                                meshPrimitive.attributes.Add(GLTFMeshPrimitive.Attribute.JOINTS_1.ToString(), accessorJointsExtra.index);
+                                meshPrimitive.attributes.Add(GLTFMeshPrimitive.Attribute.JOINTS_3.ToString(), accessorJointsExtra.index);
                                 // Populate accessor
                                 List<ushort> jointsExtra = globalVerticesSubMesh.SelectMany(v => new[] { v.BonesIndicesExtra3[0], v.BonesIndicesExtra3[1], v.BonesIndicesExtra3[2], v.BonesIndicesExtra3[3] }).ToList();
                                 jointsExtra.ForEach(n => accessorJointsExtra.bytesList.AddRange(BitConverter.GetBytes(n)));
@@ -702,7 +702,7 @@ namespace Babylon2GLTF
                                 var accessorWeightsExtra2 = GLTFBufferService.Instance.CreateAccessor(
                                     gltf,
                                     GLTFBufferService.Instance.GetBufferViewFloatVec4(gltf, buffer),
-                                    "accessorWeightsExtra",
+                                    "accessorWeightsExtra2",
                                     GLTFAccessor.ComponentType.FLOAT,
                                     GLTFAccessor.TypeEnum.VEC4
                                 );
@@ -719,7 +719,7 @@ namespace Babylon2GLTF
                                 var accessorWeightsExtra3 = GLTFBufferService.Instance.CreateAccessor(
                                     gltf,
                                     GLTFBufferService.Instance.GetBufferViewFloatVec4(gltf, buffer),
-                                    "accessorWeightsExtra",
+                                    "accessorWeightsExtra3",
                                     GLTFAccessor.ComponentType.FLOAT,
                                     GLTFAccessor.TypeEnum.VEC4
                                 );
