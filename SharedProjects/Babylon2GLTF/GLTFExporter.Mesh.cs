@@ -50,7 +50,7 @@ namespace Babylon2GLTF
             bool hasTangents = meshData.tangents != null && meshData.tangents.Length > 0;
             bool hasNormals = meshData.normals != null && meshData.normals.Length > 0;
 
-            bool hasBonesExtra = babylonMesh.matricesIndicesExtra != null && babylonMesh.matricesIndicesExtra.Length > 0;
+            bool hasBonesExtra = babylonMesh.matricesIndicesExtra != null && babylonMesh.matricesIndicesExtra.Length > 0 && babylonMesh.matricesIndicesExtra.Any(index => index != 0);
             bool hasMetadata = babylonMesh.metadata != null && babylonMesh.metadata.Count > 0;
 
             logger.RaiseMessage("GLTFExporter.Mesh | nbVertices=" + nbVertices, 3);
@@ -552,33 +552,61 @@ namespace Babylon2GLTF
                             // Create new joint and weight accessors for this mesh's skinning.
                             // --- Joints ---
                             sharedSkinnedMeshesByOriginal[gltfMesh] = new List<GLTFMesh>();
+
+                            bool canBeConvertedToByte = !globalVerticesSubMesh.Any((vertex) => vertex.BonesIndices.Any(index => index > byte.MaxValue));
+
                             var accessorJoints = GLTFBufferService.Instance.CreateAccessor(
                                 gltf,
                                 GLTFBufferService.Instance.GetBufferViewUnsignedShortVec4(gltf, buffer),
                                 "accessorJoints",
-                                GLTFAccessor.ComponentType.UNSIGNED_SHORT,
+                                canBeConvertedToByte ? GLTFAccessor.ComponentType.BYTE : GLTFAccessor.ComponentType.UNSIGNED_SHORT,
                                 GLTFAccessor.TypeEnum.VEC4
                             );
+
                             meshPrimitive.attributes.Add(GLTFMeshPrimitive.Attribute.JOINTS_0.ToString(), accessorJoints.index);
                             // Populate accessor
-                            List<ushort> joints = globalVerticesSubMesh.SelectMany(v => new[] { (ushort)v.BonesIndices[0], (ushort)v.BonesIndices[1], (ushort)v.BonesIndices[2], (ushort)v.BonesIndices[3] }).ToList();
-                            joints.ForEach(n => accessorJoints.bytesList.AddRange(BitConverter.GetBytes(n)));
+
+                            if (canBeConvertedToByte)
+                            {
+                                List<byte> joints = globalVerticesSubMesh.SelectMany(v => new[] { (byte)v.BonesIndices[0], (byte)v.BonesIndices[1], (byte)v.BonesIndices[2], (byte)v.BonesIndices[3] }).ToList();
+                                joints.ForEach(n => accessorJoints.bytesList.AddRange(BitConverter.GetBytes(n)));
+                            }
+                            else
+                            {
+                                List<ushort> joints = globalVerticesSubMesh.SelectMany(v => new[] { (ushort)v.BonesIndices[0], (ushort)v.BonesIndices[1], (ushort)v.BonesIndices[2], (ushort)v.BonesIndices[3] }).ToList();
+                                joints.ForEach(n => accessorJoints.bytesList.AddRange(BitConverter.GetBytes(n)));
+                            }
+                            
                             accessorJoints.count = globalVerticesSubMesh.Count;
 
                             if (hasBonesExtra)
                             {
+                                canBeConvertedToByte = !globalVerticesSubMesh.Any((vertex) => vertex.BonesIndicesExtra.Any(index => index > byte.MaxValue));
+
                                 // --- Joints Extra ---
                                 var accessorJointsExtra = GLTFBufferService.Instance.CreateAccessor(
                                     gltf,
                                     GLTFBufferService.Instance.GetBufferViewUnsignedShortVec4(gltf, buffer),
                                     "accessorJointsExtra",
-                                    GLTFAccessor.ComponentType.UNSIGNED_SHORT,
+                                    canBeConvertedToByte ? GLTFAccessor.ComponentType.BYTE : GLTFAccessor.ComponentType.UNSIGNED_SHORT,
                                     GLTFAccessor.TypeEnum.VEC4
                                 );
+
                                 meshPrimitive.attributes.Add(GLTFMeshPrimitive.Attribute.JOINTS_1.ToString(), accessorJointsExtra.index);
+
                                 // Populate accessor
-                                List<ushort> jointsExtra = globalVerticesSubMesh.SelectMany(v => new[] { (ushort)v.BonesIndicesExtra[0], (ushort)v.BonesIndicesExtra[1], (ushort)v.BonesIndicesExtra[2], (ushort)v.BonesIndicesExtra[3] }).ToList();
-                                jointsExtra.ForEach(n => accessorJointsExtra.bytesList.AddRange(BitConverter.GetBytes(n)));
+
+                                if (canBeConvertedToByte)
+                                {
+                                    List<byte> jointsExtra = globalVerticesSubMesh.SelectMany(v => new[] { (byte)v.BonesIndicesExtra[0], (byte)v.BonesIndicesExtra[1], (byte)v.BonesIndicesExtra[2], (byte)v.BonesIndicesExtra[3] }).ToList();
+                                    jointsExtra.ForEach(n => accessorJointsExtra.bytesList.AddRange(BitConverter.GetBytes(n)));
+                                }
+                                else
+                                {
+                                    List<ushort> jointsExtra = globalVerticesSubMesh.SelectMany(v => new[] { (ushort)v.BonesIndicesExtra[0], (ushort)v.BonesIndicesExtra[1], (ushort)v.BonesIndicesExtra[2], (ushort)v.BonesIndicesExtra[3] }).ToList();
+                                    jointsExtra.ForEach(n => accessorJointsExtra.bytesList.AddRange(BitConverter.GetBytes(n)));
+                                }
+
                                 accessorJointsExtra.count = globalVerticesSubMesh.Count;
                             }
 
